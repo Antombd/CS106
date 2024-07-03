@@ -93,6 +93,7 @@ if __name__ == "__main__":
 	max_action = float(env.action_space.high[0])
 	min_action = -max_action
 	device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+	all_rewards = []
 
 	kwargs = {
 		"state_dim": state_dim,
@@ -184,6 +185,7 @@ if __name__ == "__main__":
 			writer.add_scalar('train return', episode_reward, global_step = t+1)
 
 			state, done = env.reset(), False
+			all_rewards.append((t, episode_reward))
 			episode_reward = 0
 			episode_timesteps = 0
 			episode_num += 1 
@@ -195,4 +197,8 @@ if __name__ == "__main__":
 
 			if args.save_model:
 				policy.save('{}/models/model'.format(outdir))
+
+	with open(outdir + 'all_rewards.txt','w') as file:
+		for rewards in all_rewards:
+			file.write('{} {}\n'.format(rewards[0], rewards[1]))
 	writer.close()
