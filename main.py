@@ -171,7 +171,7 @@ if __name__ == "__main__":
 
 		next_state, reward, done, _ = env.step(action) 
 		done_bool = float(done) if episode_timesteps < env._max_episode_steps else 0
-		changed_reward = max(10 - abs(next_state[0] - 0.45) * 10, 10 * abs(next_state[0] + 0.55)) + (next_state[0] >= 0.45) * 5
+		changed_reward = max(10 - abs(next_state[0] - 0.45) * 10, 10 * abs(next_state[0] + 0.55)) + (next_state[0] >= 0.45) * 0.05
 
 		replay_buffer.add(state, action, next_state, changed_reward, done_bool)
 
